@@ -1,5 +1,6 @@
 {
   "name": "gulp-cache-breaker",
+  "description": "Gulp utility for cache busting."
   "version": "0.0.1",
   "repository": "allenai/gulp-cache-breaker",
   "author": {
