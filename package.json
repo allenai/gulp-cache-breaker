@@ -1,0 +1,28 @@
+{
+  "name": "gulp-cache-breaker",
+  "version": "0.0.1",
+  "repository": "allenai/gulp-cache-breaker",
+  "author": {
+    "name": "Sam Skjonsberg",
+    "email": "skoneberg@gmail.com",
+    "url": "http://codeviking.net"
+  },
+  "keywords": [
+    "gulpplugin",
+    "cache",
+    "cache-breaker",
+    "cache-busting",
+    "cache-bust"
+  ],
+  "license": "GPL v2",
+  "dependencies": {
+    "gulp-replace": "^0.4.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "gulp-util": "^3.0.1",
+    "mocha": "^1.21.4"
+  }
+}
