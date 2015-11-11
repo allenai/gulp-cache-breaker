@@ -13,14 +13,7 @@ var reExternal = /^(?:https?:)?\/\//;
 
 var reLeadingSlash = /^\/+/;
 
-module.exports = function(base) {
-  base = base && path.resolve(base);
-
-  if(!base || !fs.existsSync(base) || !fs.statSync(base).isDirectory()) {
-    base = process.cwd();
-  }
-
-  return replace(reCacheBreak, function(match, resource) {
+function cacheBreakPath(base, resource) {
     var qs;
     var time = Date.now();
 
@@ -43,5 +36,19 @@ module.exports = function(base) {
 
     // Play well with an existing query-string
     return resource + (resource.indexOf('?') === -1 ? '?' : '&') + 'cb=' + qs;
+}
+
+module.exports = function(base) {
+  base = base && path.resolve(base);
+
+  if(!base || !fs.existsSync(base) || !fs.statSync(base).isDirectory()) {
+    base = process.cwd();
+  }
+
+  return replace(reCacheBreak, function(match, resource) {
+    return cacheBreakPath(base, resource);
   });
 };
+
+module.exports.cacheBreakPath = cacheBreakPath;
+
