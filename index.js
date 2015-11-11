@@ -41,7 +41,7 @@ function cacheBreakPath(base, resource) {
 module.exports = function(base) {
   base = base && path.resolve(base);
 
-  if(!base || !fs.existsSync(base) || !fs.statSync(base).isDirectory()) {
+  if(!base) {
     base = process.cwd();
   }
 
