@@ -25,7 +25,7 @@ function cacheBreakPath(base, resource) {
       // correclty we'll need to remove a single leading slash.
       var fullPath = path.resolve(base, resource.replace(reLeadingSlash, ''));
       if(fs.existsSync(fullPath)) {
-        qs = checksum(fs.readFileSync(fullPath).toString());
+        qs = checksum(fs.readFileSync(fullPath));
       }
     }
 
