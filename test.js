@@ -5,7 +5,7 @@ var format = require('util').format;
 var checksum = require('checksum');
 var fs = require('fs');
 
-it('should autoprefix CSS', function(done) {
+it('break the cache as is appropriate', function(done) {
 	var s = cb('fixture/');
   var path = __dirname + '/fixture/fixture.html';
   var contents = fs.readFileSync(path);
