@@ -25,7 +25,7 @@ function cacheBreakPath(base, resource) {
       // correclty we'll need to remove a single leading slash.
       var fullPath = path.resolve(base, resource.replace(reLeadingSlash, ''));
       if(fs.existsSync(fullPath)) {
-        qs = checksum(fs.readFileSync(fullPath).toString());
+        qs = checksum(fs.readFileSync(fullPath));
       }
     }
 
@@ -41,7 +41,7 @@ function cacheBreakPath(base, resource) {
 module.exports = function(base) {
   base = base && path.resolve(base);
 
-  if(!base || !fs.existsSync(base) || !fs.statSync(base).isDirectory()) {
+  if(!base) {
     base = process.cwd();
   }
 
