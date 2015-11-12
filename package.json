@@ -1,7 +1,7 @@
 {
   "name": "gulp-cache-breaker",
   "description": "Gulp utility for cache busting.",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "repository": "allenai/gulp-cache-breaker",
   "author": {
     "name": "Sam Skjonsberg",
@@ -18,8 +18,8 @@
   "license": "GPL v2",
   "dependencies": {
     "checksum": "0.1.1",
-    "gulp-replace": "0.4.0",
-    "request": "2.45.0"
+    "gulp-replace": "0.5.4",
+    "request": "2.65.0"
   },
   "scripts": {
     "test": "mocha"
