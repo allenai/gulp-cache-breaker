@@ -1,7 +1,7 @@
 gulp-cache-breaker
 ==================
 
-> Gulp utility which appends a unique query string paramter to static files.  
+> Gulp utility which inserts SHA1 checksums into filepaths. It can also produce symlinks so that files can be requested by their cache-broken path.
 
 ## Installation
 
@@ -15,47 +15,65 @@ npm install --save-dev gulp-cache-breaker
 
 Indicate urls that should have a cache-breaking query string parameter append to by wrapping them in `{{cache-break:%url%}}` statements, as seen below:
 
-```
+``` html
 <!DOCTYPE html><html>
   <head>
-    <link rel="stylesheet" type="text/css" href="{{cache-break:/styles.css">
+    <link rel="stylesheet" type="text/css" href="{{cache-break:/styles.css"}}>
   </head>
   <body>
-	<script src="{{cache-break://cdn.jquery.org/jquery.js}}">
+	<script src="{{cache-break:/app.js}}">
   </body>
 </html>
 ```
 
-Urls that arent wrapped in `{{cache-break:%url%}}` will not have the cache-breaking query string param added.
+Paths that aren't wrapped in `{{cache-break:%url%}}` will not have the cache-breaking checksum inserted.
 
-The cache-breaking parameter will be set to the last modified time of the corresponding static file.  If the file cannot be found or is external, the parameter will be set to the UNIX timestamp representing the time at which the build occured.
 
 #### Gulpfile:
 
-```
+``` js
 var gulp = require('gulp');
-var cachebreaker = require('gulp-cache-breaker');
+var CacheBreaker = require('gulp-cache-breaker');
 
-gulp.task('default', function() {
+var cb = new CacheBreaker();
+
+gulp.task('html', function() {
   return gulp.src('src/index.html')
-      .pipe(cachebreaker('dist'))
+      .pipe(cb.gulpCbPath('dist'))
       .pipe(gulp.dest('dist'));
+});
+
+// Write symlinks for all cache-broken paths from previous tasks. 
+gulp.task('symlink-cb-paths', ['html'], function() {
+  cb.symlinkCbPaths();
 });
 ```
 
 ## API
 
-### cachebreaker([base])
+### CacheBreaker.gulpCbPath([base])
 
 #### base
 
 Type: `string`  
 Default: The current working directory, the result of `process.cwd()`
 
-The path to the base directory from which  static files that will be served.  For instance, if files are built into the `dist/` directory, this would be set to `dist`.  It's also important to make sure that cache-breaking occurs after any static resources are built (if you want the last modified time to serve as the cache-breaker).
+The path to the base directory from which static files that will be served.  For instance, if files are built into the `dist/` directory, this would be set to `dist`.  It's also important to make sure that cache-breaking occurs after any static resources are built (if you want the last modified time to serve as the cache-breaker).
 
-## Known Issues
+### CacheBreaker.gulpCdnUri([base], [host])
 
-The value of using the last modified time as the cache breaker is low, as it's likely that your static resources will be rebuilt with each build (thus updating their last modified time).
+#### base
 
+Type: `string`  
+Default: The current working directory, the result of `process.cwd()`
 
+#### host
+
+Type: `string`  
+Default: `null`
+
+A hostname for a CDN to generate absolute URIs to assets. This method replaces patterns of the form `{{cdn-path:%url%}}`. If this parameter is `null`, it calls through to `gulpCbPath`.
+
+### CacheBreaker.symlinkCbPaths()
+
+Generates symlinks for all paths seen in previous calls to `gulpCbPath` and `gulpCdnUri` on this instance.
