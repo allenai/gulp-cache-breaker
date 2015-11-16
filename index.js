@@ -35,9 +35,10 @@ CacheBreaker.prototype.cacheBreakPath = function(base, resource) {
   return path.join(dirname, basename + '.' + cs.substring(0, 10) + extname);
 };
 
-CacheBreaker.prototype.cdnUri = function(base, resource, host) {
+CacheBreaker.prototype.cdnUri = function(base, resource, host, secure) {
   if (host) {
-    return 'https://' + host + this.cacheBreakPath(base, resource);
+    var prefix = (secure === false ? 'http://' : 'https://');
+    return prefix + host + this.cacheBreakPath(base, resource);
   } else {
     return this.cacheBreakPath(base, resource);
   }
@@ -49,9 +50,9 @@ CacheBreaker.prototype.gulpCbPath = function(base) {
   }.bind(this));
 };
 
-CacheBreaker.prototype.gulpCdnUri = function(base, host) {
+CacheBreaker.prototype.gulpCdnUri = function(base, host, secure) {
   return replace(reCdnPath, function(match, resource) {
-    return this.cdnUri(base, resource, host);
+    return this.cdnUri(base, resource, host, secure);
   }.bind(this));
 };
 

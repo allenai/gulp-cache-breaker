@@ -62,3 +62,30 @@ it('sets the CDN URI', function(done) {
 
   s.end();
 });
+
+it('sets the insecure CDN URI', function(done) {
+  var cb = new CacheBreaker();
+  var s = cb.gulpCdnUri('fixture/', 'foo.cloudfront.net', false);
+  var path = __dirname + '/fixture/fixture.html';
+  var contents = fs.readFileSync(path);
+  var cs = checksum(fs.readFileSync(__dirname + '/fixture/fixture.js')).substring(0, 10);
+
+  s.on('data', function(file) {
+    var fc = file.contents.toString();
+
+    assert(fc.indexOf(format('<script src="http://foo.cloudfront.net/fixture.%s.js"></script>', cs)) !== -1);
+
+    assert.equal(file.relative, 'fixture.html');
+  });
+
+  s.on('end', done);
+
+  s.write(new gutil.File({
+    cwd: __dirname,
+    base: __dirname + '/fixture',
+    path: path,
+    contents: fs.readFileSync(path)
+  }));
+
+  s.end();
+});
