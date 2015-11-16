@@ -4,12 +4,12 @@ var gutil = require('gulp-util');
 var format = require('util').format;
 var checksum = require('checksum');
 var fs = require('fs');
+var path = require('path');
 
 it('break the cache as is appropriate', function(done) {
   var cb = new CacheBreaker();
   var s = cb.gulpCbPath('fixture/');
-  var path = __dirname + '/fixture/fixture.html';
-  var contents = fs.readFileSync(path);
+  var fixturePath = __dirname + '/fixture/fixture.html';
   var cs = checksum(fs.readFileSync(__dirname + '/fixture/fixture.js')).substring(0, 10);
 
   s.on('data', function(file) {
@@ -29,8 +29,8 @@ it('break the cache as is appropriate', function(done) {
   s.write(new gutil.File({
     cwd: __dirname,
     base: __dirname + '/fixture',
-    path: path,
-    contents: fs.readFileSync(path)
+    path: fixturePath,
+    contents: fs.readFileSync(fixturePath)
   }));
 
   s.end();
@@ -39,8 +39,7 @@ it('break the cache as is appropriate', function(done) {
 it('sets the CDN URI', function(done) {
   var cb = new CacheBreaker();
   var s = cb.gulpCdnUri('fixture/', 'foo.cloudfront.net');
-  var path = __dirname + '/fixture/fixture.html';
-  var contents = fs.readFileSync(path);
+  var fixturePath = __dirname + '/fixture/fixture.html';
   var cs = checksum(fs.readFileSync(__dirname + '/fixture/fixture.js')).substring(0, 10);
 
   s.on('data', function(file) {
@@ -56,8 +55,8 @@ it('sets the CDN URI', function(done) {
   s.write(new gutil.File({
     cwd: __dirname,
     base: __dirname + '/fixture',
-    path: path,
-    contents: fs.readFileSync(path)
+    path: fixturePath,
+    contents: fs.readFileSync(fixturePath)
   }));
 
   s.end();
@@ -66,8 +65,7 @@ it('sets the CDN URI', function(done) {
 it('sets the insecure CDN URI', function(done) {
   var cb = new CacheBreaker();
   var s = cb.gulpCdnUri('fixture/', 'foo.cloudfront.net', false);
-  var path = __dirname + '/fixture/fixture.html';
-  var contents = fs.readFileSync(path);
+  var fixturePath = __dirname + '/fixture/fixture.html';
   var cs = checksum(fs.readFileSync(__dirname + '/fixture/fixture.js')).substring(0, 10);
 
   s.on('data', function(file) {
@@ -83,9 +81,43 @@ it('sets the insecure CDN URI', function(done) {
   s.write(new gutil.File({
     cwd: __dirname,
     base: __dirname + '/fixture',
-    path: path,
-    contents: fs.readFileSync(path)
+    path: fixturePath,
+    contents: fs.readFileSync(fixturePath)
   }));
 
   s.end();
 });
+
+it('symlinks', function(done) {
+  var cb = new CacheBreaker();
+  var s = cb.gulpCbPath('fixture/');
+  var fixturePath = __dirname + '/fixture/fixture.html';
+  var cs = checksum(fs.readFileSync(__dirname + '/fixture/fixture.js')).substring(0, 10);
+
+  s.on('data', function() {});
+
+  s.on('end', function() {
+    cb.symlinkCbPaths();
+
+    var symlink = path.resolve('fixture', format('fixture.%s.js', cs));
+    try {
+      var realpath = fs.realpathSync(symlink);
+
+      assert.equal(path.resolve('fixture', 'fixture.js'), realpath);
+
+      done();
+    } finally {
+      try { fs.unlinkSync(symlink); } catch (e) { }
+    }
+  });
+
+  s.write(new gutil.File({
+    cwd: __dirname,
+    base: __dirname + '/fixture',
+    path: fixturePath,
+    contents: fs.readFileSync(fixturePath)
+  }));
+
+  s.end();
+});
+
