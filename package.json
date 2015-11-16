@@ -1,12 +1,11 @@
 {
   "name": "gulp-cache-breaker",
   "description": "Gulp utility for cache busting.",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "repository": "allenai/gulp-cache-breaker",
   "author": {
     "name": "Sam Skjonsberg",
-    "email": "skoneberg@gmail.com",
-    "url": "http://codeviking.net"
+    "email": "sams@allenai.org"
   },
   "keywords": [
     "gulpplugin",
