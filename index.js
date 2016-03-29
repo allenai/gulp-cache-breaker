@@ -1,6 +1,7 @@
 var replace = require('gulp-replace');
 var path = require('path');
 var fs = require('fs');
+var url = require('url');
 var checksum = require('checksum');
 
 // Match {{cache-break:path/to/resource}}
@@ -32,7 +33,7 @@ CacheBreaker.prototype.cacheBreakPath = function(base, resource) {
   var extname = path.extname(resource);
   var basename = path.basename(resource, extname);
 
-  return path.join(dirname, basename + '.' + cs.substring(0, 10) + extname);
+  return url.resolve(dirname + '/', basename + '.' + cs.substring(0, 10) + extname);
 };
 
 CacheBreaker.prototype.cdnUri = function(base, resource, host, secure) {
