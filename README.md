@@ -18,7 +18,7 @@ Indicate urls that should have a cache-breaking query string parameter append to
 ``` html
 <!DOCTYPE html><html>
   <head>
-    <link rel="stylesheet" type="text/css" href="{{cache-break:/styles.css"}}>
+    <link rel="stylesheet" type="text/css" href="{{cache-break:/styles.css}}">
   </head>
   <body>
 	<script src="{{cache-break:/app.js}}">
