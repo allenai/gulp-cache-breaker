@@ -18,13 +18,13 @@
   "dependencies": {
     "checksum": "0.1.1",
     "gulp-replace": "0.5.4",
-    "request": "2.65.0"
+    "request": "^2.88.0"
   },
   "scripts": {
     "test": "mocha"
   },
   "devDependencies": {
-    "gulp-util": "3.0.1",
-    "mocha": "1.21.4"
+    "mocha": "^6.1.4",
+    "vinyl": "^2.2.0"
   }
 }

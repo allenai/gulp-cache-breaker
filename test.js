@@ -1,8 +1,8 @@
 var CacheBreaker = require('./');
 var assert = require('assert');
-var gutil = require('gulp-util');
 var format = require('util').format;
 var checksum = require('checksum');
+const Vinyl = require('vinyl');
 var fs = require('fs');
 var path = require('path');
 
@@ -26,7 +26,7 @@ it('break the cache as is appropriate', function(done) {
 
   s.on('end', done);
 
-  s.write(new gutil.File({
+  s.write(new Vinyl({
     cwd: __dirname,
     base: __dirname + '/fixture',
     path: fixturePath,
@@ -52,7 +52,7 @@ it('sets the CDN URI', function(done) {
 
   s.on('end', done);
 
-  s.write(new gutil.File({
+  s.write(new Vinyl({
     cwd: __dirname,
     base: __dirname + '/fixture',
     path: fixturePath,
@@ -78,7 +78,7 @@ it('sets the insecure CDN URI', function(done) {
 
   s.on('end', done);
 
-  s.write(new gutil.File({
+  s.write(new Vinyl({
     cwd: __dirname,
     base: __dirname + '/fixture',
     path: fixturePath,
@@ -111,7 +111,7 @@ it('symlinks', function(done) {
     }
   });
 
-  s.write(new gutil.File({
+  s.write(new Vinyl({
     cwd: __dirname,
     base: __dirname + '/fixture',
     path: fixturePath,
