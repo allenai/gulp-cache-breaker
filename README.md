@@ -1,5 +1,11 @@
-gulp-cache-breaker
-==================
+# ⚠️ INACTIVE PACKAGE ⚠️
+
+This package is no longer under active development. Use at your own risk.
+
+If you find it useful, reach out to [sams@codeviking.net](mailto:sams@codeviking.net).
+I'd be happy to transfer the package to you for future maintenance.
+
+## gulp-cache-breaker
 
 > Gulp utility which inserts SHA1 checksums into filepaths. It can also produce symlinks so that files can be requested by their cache-broken path.
 
@@ -43,7 +49,7 @@ gulp.task('html', function() {
       .pipe(gulp.dest('dist'));
 });
 
-// Write symlinks for all cache-broken paths from previous tasks. 
+// Write symlinks for all cache-broken paths from previous tasks.
 gulp.task('symlink-cb-paths', ['html'], function() {
   cb.symlinkCbPaths();
 });
@@ -55,7 +61,7 @@ gulp.task('symlink-cb-paths', ['html'], function() {
 
 #### base
 
-Type: `string`  
+Type: `string`
 Default: The current working directory, the result of `process.cwd()`
 
 The path to the base directory from which static files that will be served.  For instance, if files are built into the `dist/` directory, this would be set to `dist`.  It's also important to make sure that cache-breaking occurs after any static resources are built (if you want the last modified time to serve as the cache-breaker).
@@ -64,12 +70,12 @@ The path to the base directory from which static files that will be served.  For
 
 #### base
 
-Type: `string`  
+Type: `string`
 Default: The current working directory, the result of `process.cwd()`
 
 #### host
 
-Type: `string`  
+Type: `string`
 Default: `null`
 
 A hostname for a CDN to generate absolute URIs to assets. This method replaces patterns of the form `{{cdn-path:%url%}}`. If this parameter is `null`, it calls through to `gulpCbPath`.
