@@ -57,7 +57,7 @@ gulp.task('symlink-cb-paths', ['html'], function() {
 
 ## API
 
-### CacheBreaker.gulpCbPath([base])
+### cb.gulpCbPath([base])
 
 #### base
 
@@ -66,7 +66,7 @@ Default: The current working directory, the result of `process.cwd()`
 
 The path to the base directory from which static files that will be served.  For instance, if files are built into the `dist/` directory, this would be set to `dist`.  It's also important to make sure that cache-breaking occurs after any static resources are built (if you want the last modified time to serve as the cache-breaker).
 
-### CacheBreaker.gulpCdnUri([base], [host])
+### cb.gulpCdnUri([base], [host])
 
 #### base
 
@@ -80,6 +80,6 @@ Default: `null`
 
 A hostname for a CDN to generate absolute URIs to assets. This method replaces patterns of the form `{{cdn-path:%url%}}`. If this parameter is `null`, it calls through to `gulpCbPath`.
 
-### CacheBreaker.symlinkCbPaths()
+### cb.symlinkCbPaths()
 
 Generates symlinks for all paths seen in previous calls to `gulpCbPath` and `gulpCdnUri` on this instance.
