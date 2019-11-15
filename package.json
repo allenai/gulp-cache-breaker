@@ -14,7 +14,7 @@
     "cache-busting",
     "cache-bust"
   ],
-  "license": "GPL v2",
+  "license": "Apache-2.0",
   "dependencies": {
     "checksum": "0.1.1",
     "gulp-replace": "0.5.4",
