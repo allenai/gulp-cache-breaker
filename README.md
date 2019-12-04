@@ -2,7 +2,7 @@
 
 This package is no longer under active development. Use at your own risk.
 
-If you find it useful, reach out to [sams@codeviking.net](mailto:sams@codeviking.net).
+If you find it useful, reach out to [sams@allenai.org](mailto:sams@allenai.org).
 I'd be happy to transfer the package to you for future maintenance.
 
 ## gulp-cache-breaker
